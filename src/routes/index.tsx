@@ -1,24 +1,44 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
+import { iniciarSesion } from "@/lib/db";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({
+    meta: [
+      { title: "Iniciar sesión | Monitoreo de agua" },
+      { name: "description", content: "Ingresa para ver pH, turbidez y temperatura en tiempo real." },
+      { property: "og:title", content: "Iniciar sesión | Monitoreo de agua" },
+      { property: "og:description", content: "Ingresa para ver pH, turbidez y temperatura en tiempo real." },
+    ],
+  }),
+  component: Inicio,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
+function Inicio() {
+  const navigate = useNavigate();
+  const [usuario, setUsuario] = useState("");
+  const [contrasena, setContrasena] = useState("");
+  const [error, setError] = useState("");
+
+  async function entrar(e: React.FormEvent) {
+    e.preventDefault();
+    if (await iniciarSesion(usuario, contrasena)) navigate({ to: "/panel" });
+    else setError("Usuario o contraseña incorrectos.");
+  }
+
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="pagina">
+      <div className="cuadro">
+        <form className="lado" onSubmit={entrar}>
+          <h1>Iniciar sesión</h1>
+          <input placeholder="Usuario" value={usuario} onChange={(e) => setUsuario(e.target.value)} required />
+          <input type="password" placeholder="Contraseña" value={contrasena} onChange={(e) => setContrasena(e.target.value)} required />
+          {error && <p className="error">{error}</p>}
+          <button type="submit">Entrar</button>
+          <Link to="/registro" className="enlace">¿No tienes cuenta? Regístrate</Link>
+        </form>
+        <div className="imagen">Espacio para tu imagen</div>
+      </div>
     </div>
   );
 }
