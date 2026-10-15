@@ -42,7 +42,7 @@ function Registro() {
           <input type="password" placeholder="Contraseña" value={contrasena} onChange={(e) => setContrasena(e.target.value)} required />
           <input type="password" placeholder="Confirmar contraseña" value={confirmar} onChange={(e) => setConfirmar(e.target.value)} required />
           {error && <p className="error">{error}</p>}
-          <button type="submit">Registrarme</button>
+          <button type="submit" className="alt">Registrarme</button>
           <Link to="/" className="enlace">Ya tengo cuenta</Link>
         </form>
         <div className="imagen">Espacio para tu imagen</div>

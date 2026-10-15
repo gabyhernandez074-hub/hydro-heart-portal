@@ -1,6 +1,8 @@
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
+@import "@fontsource/open-sauce-one";
+@import "@fontsource/open-sauce-one/700.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -144,17 +146,22 @@
 }
 
 /* ===== Estilos sencillos de la app ===== */
-:root { --azul: oklch(0.55 0.1 245); --azul-oscuro: oklch(0.4 0.1 250); }
-.pagina { min-height: 100vh; background: var(--azul); display: flex; align-items: center; justify-content: center; padding: 20px; font-family: Arial, sans-serif; }
+:root {
+  --fondo: oklch(0.283 0.057 232.4);      /* #012E41 */
+  --boton-claro: oklch(0.756 0.076 200);  /* #72BFC3 */
+  --boton-rojo: oklch(0.715 0.17 26.4);   /* #FB7268 */
+}
+.pagina { min-height: 100vh; background: var(--fondo); color: oklch(1 0 0); display: flex; align-items: center; justify-content: center; padding: 20px; font-family: "Open Sauce One", Arial, sans-serif; }
 .cuadro { background: oklch(1 0 0); border-radius: 12px; display: flex; gap: 20px; padding: 30px; width: 100%; max-width: 800px; }
 .columna { flex-direction: column; }
 .lado { flex: 1; display: flex; flex-direction: column; gap: 10px; }
-.lado h1 { font-size: 24px; font-weight: bold; color: var(--azul-oscuro); }
+.lado h1 { font-size: 24px; font-weight: bold; color: var(--fondo); }
 .lado input { border: 1px solid oklch(0.8 0 0); border-radius: 6px; padding: 10px; }
-.lado button { background: var(--azul-oscuro); color: oklch(1 0 0); border-radius: 6px; padding: 10px; }
-.enlace { color: var(--azul-oscuro); font-size: 14px; text-align: center; }
+.lado button { background: var(--boton-claro); color: oklch(1 0 0); border: none; border-radius: 6px; padding: 10px; cursor: pointer; }
+.lado button.alt { background: var(--boton-rojo); }
+.enlace { color: var(--fondo); font-size: 14px; text-align: center; }
 .error { color: oklch(0.55 0.2 27); font-size: 14px; }
 .imagen { flex: 1; border: 2px dashed oklch(0.8 0 0); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: oklch(0.6 0 0); min-height: 250px; }
-.grafica h2 { font-weight: bold; color: var(--azul-oscuro); margin-bottom: 6px; }
+.grafica h2 { font-weight: bold; color: var(--fondo); margin-bottom: 6px; }
 .grafica svg { width: 100%; height: 110px; background: oklch(0.97 0.01 245); border-radius: 6px; }
-.grafica polyline { fill: none; stroke: var(--azul); stroke-width: 2; }
+.grafica polyline { fill: none; stroke: var(--boton-claro); stroke-width: 2; }
