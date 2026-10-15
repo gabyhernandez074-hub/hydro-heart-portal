@@ -152,11 +152,11 @@
   --boton-rojo: oklch(0.715 0.17 26.4);   /* #FB7268 */
 }
 .pagina { min-height: 100vh; background: var(--fondo); color: oklch(1 0 0); display: flex; align-items: center; justify-content: center; padding: 20px; font-family: "Open Sauce One", Arial, sans-serif; }
-.cuadro { background: oklch(1 0 0); border-radius: 12px; display: flex; gap: 20px; padding: 30px; width: 100%; max-width: 800px; }
+.cuadro { background: oklch(1 0 0); color: oklch(0.15 0.02 240); border-radius: 12px; display: flex; gap: 20px; padding: 30px; width: 100%; max-width: 800px; }
 .columna { flex-direction: column; }
 .lado { flex: 1; display: flex; flex-direction: column; gap: 10px; }
 .lado h1 { font-size: 24px; font-weight: bold; color: var(--fondo); }
-.lado input { border: 1px solid oklch(0.8 0 0); border-radius: 6px; padding: 10px; }
+.lado input { color: var(--fondo); border: 1px solid oklch(0.8 0 0); border-radius: 6px; padding: 10px; }
 .lado button { background: var(--boton-claro); color: oklch(1 0 0); border: none; border-radius: 6px; padding: 10px; cursor: pointer; }
 .lado button.alt { background: var(--boton-rojo); }
 .enlace { color: var(--fondo); font-size: 14px; text-align: center; }
