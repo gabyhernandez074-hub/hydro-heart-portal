@@ -9,6 +9,8 @@ export const Route = createFileRoute("/registro")({
       { name: "description", content: "Crea tu cuenta para ver los sensores." },
       { property: "og:title", content: "Registro | Monitoreo de agua" },
       { property: "og:description", content: "Crea tu cuenta para ver los sensores." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Registro,
