@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { escucharSensores } from "@/lib/db";
+import { GraficaSensor, type Lectura } from "@/components/grafica-sensor";
 
 export const Route = createFileRoute("/panel")({
   head: () => ({
@@ -9,48 +10,41 @@ export const Route = createFileRoute("/panel")({
       { name: "description", content: "Gráficas en tiempo real de pH, turbidez y temperatura." },
       { property: "og:title", content: "Panel | Monitoreo de agua" },
       { property: "og:description", content: "Gráficas en tiempo real de pH, turbidez y temperatura." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Panel,
 });
 
-// Gráfica de línea muy simple hecha con SVG
-function Grafica({ titulo, icono, valores, unidad }: { titulo: string; icono: string; valores: number[]; unidad: string }) {
-  const max = Math.max(...valores, 1);
-  const min = Math.min(...valores, 0);
-  const puntos = valores
-    .map((v, i) => `${(i / Math.max(valores.length - 1, 1)) * 300},${100 - ((v - min) / (max - min || 1)) * 90}`)
-    .join(" ");
-  return (
-    <div className="grafica">
-      <h2>{icono} {titulo}: {valores.at(-1) ?? "--"} {unidad}</h2>
-      <svg viewBox="0 0 300 100">
-        <polyline points={puntos} />
-      </svg>
-    </div>
-  );
-}
-
 function Panel() {
-  const [ph, setPh] = useState<number[]>([]);
-  const [turbidez, setTurbidez] = useState<number[]>([]);
-  const [temperatura, setTemperatura] = useState<number[]>([]);
+  const [lecturas, setLecturas] = useState<Lectura[]>([]);
 
   useEffect(() => {
+    // Historial de ejemplo; no representa mediciones reales de Firebase.
+    const ahora = Date.now();
+    setLecturas(Array.from({ length: 40 }, (_, i) => ({
+      tiempo: ahora - (40 - i) * 2000,
+      temperatura: +(24 + Math.sin(i * 1.7) * 0.7 - i * 0.035).toFixed(1),
+      ph: +(7 + Math.sin(i * 1.3) * 0.16 + i * 0.012).toFixed(2),
+      turbidez: +(3 + Math.sin(i * 1.8) * 0.65 - i * 0.028).toFixed(2),
+    })));
+    // Cada actualización añade un punto con su hora real y conserva 40 lecturas.
     return escucharSensores((d) => {
-      setPh((a) => [...a, d.ph].slice(-20));
-      setTurbidez((a) => [...a, d.turbidez].slice(-20));
-      setTemperatura((a) => [...a, d.temperatura].slice(-20));
+      setLecturas((anteriores) => [...anteriores, { ...d, tiempo: Date.now() }].slice(-40));
     });
   }, []);
 
   return (
-    <div className="pagina">
-      <div className="cuadro columna">
-        <Grafica titulo="pH" icono="🧪" valores={ph} unidad="" />
-        <Grafica titulo="Turbidez" icono="💧" valores={turbidez} unidad="NTU" />
-        <Grafica titulo="Temperatura" icono="🌡️" valores={temperatura} unidad="°C" />
+    <main className="pagina panel-sensores">
+      <div className="panel-contenido">
+        <p className="panel-aviso">Datos de prueba · Firebase pendiente de conexión</p>
+        <div className="panel-graficas">
+          <GraficaSensor sensor="temperatura" lecturas={lecturas} />
+          <GraficaSensor sensor="ph" lecturas={lecturas} />
+          <GraficaSensor sensor="turbidez" lecturas={lecturas} />
+        </div>
       </div>
-    </div>
+    </main>
   );
 }

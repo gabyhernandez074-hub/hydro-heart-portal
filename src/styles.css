@@ -162,6 +162,38 @@
 .enlace { color: var(--fondo); font-size: 14px; text-align: center; }
 .error { color: oklch(0.55 0.2 27); font-size: 14px; }
 .imagen { flex: 1; border: 2px dashed oklch(0.8 0 0); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: oklch(0.6 0 0); min-height: 250px; }
-.grafica h2 { font-weight: bold; color: var(--fondo); margin-bottom: 6px; }
-.grafica svg { width: 100%; height: 110px; background: oklch(0.97 0.01 245); border-radius: 6px; }
-.grafica polyline { fill: none; stroke: var(--boton-claro); stroke-width: 2; }
+:root {
+  --sensor-text: oklch(1 0 0);
+  --sensor-muted: oklch(0.83 0.025 218);
+  --sensor-surface: color-mix(in oklab, var(--fondo), var(--sensor-text) 4%);
+  --sensor-grid: color-mix(in oklab, var(--fondo), var(--sensor-text) 18%);
+}
+.panel-sensores { padding: 28px 20px; }
+.panel-contenido { width: 100%; max-width: 1280px; }
+.panel-aviso { color: var(--sensor-muted); font-size: 12px; margin-bottom: 16px; }
+.panel-graficas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.grafica-sensor { min-width: 0; background: var(--sensor-surface); color: var(--sensor-text); border: 1px solid var(--sensor-grid); border-radius: 8px; padding: 20px 16px 12px; --sensor-color: var(--boton-claro); }
+.sensor-temperatura { --sensor-color: var(--boton-rojo); }
+.sensor-turbidez { --sensor-color: var(--sensor-text); }
+.sensor-cabecera { display: flex; align-items: center; gap: 10px; }
+.sensor-icono { width: 40px; height: 40px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: var(--sensor-color); background: color-mix(in oklab, var(--sensor-color) 13%, transparent); }
+.sensor-cabecera h2 { font-size: 13px; font-weight: 700; }
+.sensor-cabecera p { font-size: 10px; color: var(--sensor-muted); margin-top: 3px; }
+.sensor-estado { display: flex; align-items: center; gap: 5px; margin-left: auto; padding: 4px 8px; border: 1px solid var(--sensor-grid); border-radius: 20px; color: var(--boton-claro); font-size: 10px; white-space: nowrap; }
+.sensor-estado > span { width: 6px; height: 6px; background: currentColor; border-radius: 50%; }
+.sensor-lectura { display: flex; align-items: baseline; justify-content: space-between; margin: 20px 0 8px; }
+.sensor-lectura p { display: flex; align-items: baseline; gap: 8px; }
+.sensor-lectura strong { color: var(--sensor-color); font-size: 34px; font-weight: 700; line-height: 1.2; }
+.sensor-lectura p > span, .sensor-cambio { color: var(--sensor-muted); font-size: 12px; }
+.sensor-trazado { width: 100%; height: 158px; }
+@media (max-width: 1000px) and (min-width: 761px) {
+  .panel-graficas { gap: 12px; }
+  .grafica-sensor { padding: 16px 10px 10px; }
+  .sensor-cabecera { gap: 7px; }
+  .sensor-icono { width: 32px; height: 32px; }
+  .sensor-estado { padding: 3px 5px; }
+}
+@media (max-width: 760px) {
+  .panel-graficas { grid-template-columns: minmax(0, 1fr); }
+  .panel-contenido { max-width: 480px; }
+}

@@ -9,6 +9,8 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Ingresa para ver pH, turbidez y temperatura en tiempo real." },
       { property: "og:title", content: "Iniciar sesión | Monitoreo de agua" },
       { property: "og:description", content: "Ingresa para ver pH, turbidez y temperatura en tiempo real." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Inicio,
